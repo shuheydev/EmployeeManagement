@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace EmployeeManagement
 {
@@ -26,7 +27,8 @@ namespace EmployeeManagement
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
+            ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -37,16 +39,23 @@ namespace EmployeeManagement
             //Runはterminalミドルウェア
             app.Use(async (context, next) =>
             {
-                await context.Response
-                .WriteAsync("Hello from 1st middleware");
+                logger.LogInformation("MW1: Incoming Request");
                 await next();
+                logger.LogInformation("MW1: Outgoing Response");
             });
 
-            //二つ目のミドルウェア
+            app.Use(async (context, next) =>
+            {
+                logger.LogInformation("MW2: Incoming Request");
+                await next();
+                logger.LogInformation("MW2: Outgoing Response");
+            });
+
             app.Run(async (context) =>
             {
                 await context.Response
-                .WriteAsync("Hello from 2nd middleware");
+                .WriteAsync("MW3: Request handled and respojnse produced");
+                logger.LogInformation("MW3: Request handled and respojnse produced");
             });
         }
     }
