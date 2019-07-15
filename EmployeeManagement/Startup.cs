@@ -35,6 +35,7 @@ namespace EmployeeManagement
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseDefaultFiles();//順番大事。usestaticfilesの前。
             app.UseStaticFiles();
 
             app.Run(async (context) =>
