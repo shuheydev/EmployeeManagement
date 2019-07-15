@@ -34,11 +34,19 @@ namespace EmployeeManagement
                 app.UseDeveloperExceptionPage();
             }
 
+            //Runはterminalミドルウェア
+            app.Use(async (context, next) =>
+            {
+                await context.Response
+                .WriteAsync("Hello from 1st middleware");
+                await next();
+            });
+
             //二つ目のミドルウェア
             app.Run(async (context) =>
             {
                 await context.Response
-                .WriteAsync("Hello world!");//常にhello worldを返す。
+                .WriteAsync("Hello from 2nd middleware");
             });
         }
     }
