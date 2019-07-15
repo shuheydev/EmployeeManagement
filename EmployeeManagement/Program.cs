@@ -21,5 +21,8 @@ namespace EmployeeManagement
             //WebHostを生成
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
+        //setting up web server
+        //load configuration
+
     }
 }
