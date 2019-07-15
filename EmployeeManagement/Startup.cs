@@ -30,12 +30,15 @@ namespace EmployeeManagement
         {
             if (env.IsDevelopment())
             {
+                //一つ目のミドルウェア
                 app.UseDeveloperExceptionPage();
             }
 
+            //二つ目のミドルウェア
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync(_config["MyKey"]);
+                await context.Response
+                .WriteAsync(_config["MyKey"]);
             });
         }
     }
