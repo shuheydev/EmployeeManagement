@@ -45,8 +45,7 @@ namespace EmployeeManagement
 
             app.Run(async (context) =>
             {
-                throw new Exception("Some error processing the request");
-                await context.Response.WriteAsync("MW3: Request handled and respojnse produced");
+                await context.Response.WriteAsync(env.EnvironmentName);
             });
         }
     }
