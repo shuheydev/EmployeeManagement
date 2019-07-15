@@ -11,9 +11,9 @@ namespace EmployeeManagement.Controllers
     public class HomeController : Controller
     {
         // GET: /<controller>/
-        public string Index()
+        public JsonResult Index()
         {
-            return "Hello from MVC";
+            return Json(new { id = 1, name = "hhhh" });
         }
     }
 }
