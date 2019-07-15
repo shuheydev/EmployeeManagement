@@ -32,30 +32,21 @@ namespace EmployeeManagement
         {
             if (env.IsDevelopment())
             {
+                DeveloperExceptionPageOptions developerExceptionPageOptions = new DeveloperExceptionPageOptions
+                {
+                    SourceCodeLineCount = 10
+                };
+
                 //一つ目のミドルウェア
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage(developerExceptionPageOptions);
             }
 
-            //Runはterminalミドルウェア
-            app.Use(async (context, next) =>
-            {
-                logger.LogInformation("MW1: Incoming Request");
-                await next();
-                logger.LogInformation("MW1: Outgoing Response");
-            });
-
-            app.Use(async (context, next) =>
-            {
-                logger.LogInformation("MW2: Incoming Request");
-                await next();
-                logger.LogInformation("MW2: Outgoing Response");
-            });
+            app.UseFileServer();
 
             app.Run(async (context) =>
             {
-                await context.Response
-                .WriteAsync("MW3: Request handled and respojnse produced");
-                logger.LogInformation("MW3: Request handled and respojnse produced");
+                throw new Exception("Some error processing the request");
+                await context.Response.WriteAsync("MW3: Request handled and respojnse produced");
             });
         }
     }
