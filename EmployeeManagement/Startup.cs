@@ -38,7 +38,7 @@ namespace EmployeeManagement
             app.Run(async (context) =>
             {
                 await context.Response
-                .WriteAsync(_config["MyKey"]);
+                .WriteAsync("Hello world!");//常にhello worldを返す。
             });
         }
     }
