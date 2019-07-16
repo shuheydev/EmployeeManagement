@@ -27,6 +27,8 @@ namespace EmployeeManagement.Controllers
         {
             Employee model = _employeeRepository.GetEmployee(1);
 
+            ViewBag.PageTitle = "Employee Details";
+
             //デフォルトでは規約に従って自分のコントローラー(Home)のアクション(Details)のViewに返す
             return View(model);
 
