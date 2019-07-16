@@ -28,5 +28,17 @@ namespace EmployeeManagement.Controllers
             Employee model = _employeeRepository.GetEmployee(1);
             return View(model);
         }
+
+        [HttpPost]
+        public IActionResult Create(Employee employee)
+        {
+            if (ModelState.IsValid)
+            {
+                Employee newEmployee = _employeeRepository.Add(employee);
+                return RedirectToAction("details", new { id = newEmployee.Id });
+            }
+
+            return View();
+        }
     }
 }
