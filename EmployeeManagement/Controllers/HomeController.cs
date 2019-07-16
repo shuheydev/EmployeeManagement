@@ -26,7 +26,20 @@ namespace EmployeeManagement.Controllers
         public ViewResult Details()
         {
             Employee model = _employeeRepository.GetEmployee(1);
+
+            //デフォルトでは規約に従って自分のコントローラー(Home)のアクション(Details)のViewに返す
             return View(model);
+
+            //規約以外のファイルを指定する。拡張子もいらない。拡張子つけたらエラーになる。
+            //return View("Test", model);
+
+            //さらに、任意のフォルダの場合。拡張子が必要
+            //絶対パスは/MyViews...でもMyViewsでも~/MyViewsでもよい。
+            //プロジェクトルートが起点。
+            //return View("MyViews/Test.cshtml", model);
+
+            //相対パスでさかのぼることもできる
+            //return View("../../MyViews/Test");
         }
 
         [HttpPost]
