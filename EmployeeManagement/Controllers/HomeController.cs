@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Models;
+using EmployeeManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,12 +26,14 @@ namespace EmployeeManagement.Controllers
 
         public ViewResult Details()
         {
-            Employee model = _employeeRepository.GetEmployee(1);
-
-            ViewBag.PageTitle = "Employee Details";
+            HomeDetailsViewModel homeDetailsViewModel = new HomeDetailsViewModel()
+            {
+                Employee = _employeeRepository.GetEmployee(1),
+                PageTitle = "Employee Details"
+            };
 
             //デフォルトでは規約に従って自分のコントローラー(Home)のアクション(Details)のViewに返す
-            return View(model);
+            return View(homeDetailsViewModel);
 
             //規約以外のファイルを指定する。拡張子もいらない。拡張子つけたらエラーになる。
             //return View("Test", model);
