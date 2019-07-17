@@ -54,15 +54,9 @@ namespace EmployeeManagement.Controllers
             //return View("../../MyViews/Test");
         }
 
-        [HttpPost]
-        public IActionResult Create(Employee employee)
+        [Route("[action]")]
+        public ViewResult Create()
         {
-            if (ModelState.IsValid)
-            {
-                Employee newEmployee = _employeeRepository.Add(employee);
-                return RedirectToAction("details", new { id = newEmployee.Id });
-            }
-
             return View();
         }
     }
