@@ -63,11 +63,16 @@ namespace EmployeeManagement.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public RedirectToActionResult Create(Employee employee)
+        public IActionResult Create(Employee employee)//すべてのResultを返すことができる。複数のResultを返す可能性がある場合はこれを
         {
-            var newEmployee = _employeeRepository.Add(employee);
+            if (ModelState.IsValid)
+            {
+                var newEmployee = _employeeRepository.Add(employee);
 
-            return RedirectToAction("details", new { id = newEmployee.Id });
+                return RedirectToAction("details", new { id = newEmployee.Id });
+            }
+
+            return View();
         }
     }
 }
