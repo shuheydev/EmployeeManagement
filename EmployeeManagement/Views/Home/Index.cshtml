@@ -16,7 +16,10 @@
         @foreach (var employee in Model)
         {
             <tr>
-                <td>@employee.Id</td>
+                <td>
+                    <img class="card-img-top" src="~/images/image1.jpg"
+                         asp-append-version="true" />
+                </td>
                 <td>@employee.Name</td>
                 <td>
                     @employee.Department
