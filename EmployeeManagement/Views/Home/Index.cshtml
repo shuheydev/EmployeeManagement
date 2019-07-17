@@ -18,7 +18,12 @@
             <tr>
                 <td>@employee.Id</td>
                 <td>@employee.Name</td>
-                <td>@employee.Department</td>
+                <td>
+                    @employee.Department
+                    <a asp-action="details" asp-controller="home" asp-route-id="@employee.Id" class="btn btn-primary">TagHelper</a>
+                    <a href="@Url.Action("details", "home", new { id = employee.Id })" class="btn btn-danger">Urlクラス</a>
+                </td>
+
             </tr>
         }
 
