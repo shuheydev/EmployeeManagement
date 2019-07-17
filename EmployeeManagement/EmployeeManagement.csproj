@@ -6,6 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
