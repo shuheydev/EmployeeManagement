@@ -55,9 +55,19 @@ namespace EmployeeManagement.Controllers
         }
 
         [Route("[action]")]
+        [HttpGet]
         public ViewResult Create()
         {
             return View();
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        public RedirectToActionResult Create(Employee employee)
+        {
+            var newEmployee = _employeeRepository.Add(employee);
+
+            return RedirectToAction("details", new { id = newEmployee.Id });
         }
     }
 }
