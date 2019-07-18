@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Controllers
 {
-    [Route("[controller]")]
     public class HomeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
@@ -24,17 +23,12 @@ namespace EmployeeManagement.Controllers
             this.hostingEnvironment = hostingEnvironment;
         }
 
-        // GET: /<controller>/
-        [Route("")]
-        [Route("/")]
-        [Route("[action]")]
         public ViewResult Index()
         {
             var model = _employeeRepository.GetAllEmployee();
             return View(model);
         }
 
-        [Route("[action]/{id}")]
         public ViewResult Details(int id)
         {
             HomeDetailsViewModel homeDetailsViewModel = new HomeDetailsViewModel()
@@ -58,27 +52,18 @@ namespace EmployeeManagement.Controllers
             //return View("../../MyViews/Test");
         }
 
-        [Route("[action]")]
         [HttpGet]
         public ViewResult Create()
         {
             return View();
         }
 
-        [Route("[action]")]
         [HttpPost]
         public IActionResult Create(EmployeeCreateViewModel model)//すべてのResultを返すことができる。複数のResultを返す可能性がある場合はこれを
         {
             if (ModelState.IsValid)
             {
-                string uniqueFileName = null;
-                if (model.Photo != null)
-                {
-                    string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                    string filePath = Path.Combine(uploadFolder, uniqueFileName);
-                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                }
+                string uniqueFileName = ProcessUploadedFile(model);
 
                 var newEmployee = new Employee
                 {
@@ -94,7 +79,6 @@ namespace EmployeeManagement.Controllers
             return View();
         }
 
-        [Route("[action]/{id}")]
         [HttpGet]
         public ViewResult Edit(int id)
         {
@@ -108,6 +92,47 @@ namespace EmployeeManagement.Controllers
                 ExistingPhotoPath = employee.PhotoPath,
             };
             return View(employeeEditViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EmployeeEditViewModel model)//すべてのResultを返すことができる。複数のResultを返す可能性がある場合はこれを
+        {
+            if (ModelState.IsValid)
+            {
+                var employee = _employeeRepository.GetEmployee(model.Id);
+                employee.Name = model.Name;
+                employee.Email = model.Email;
+                employee.Department = model.Department;
+                if (model.Photo != null)
+                {
+                    if (model.ExistingPhotoPath != null)
+                    {
+                        //delete old photo
+                        string filePath = Path.Combine(hostingEnvironment.WebRootPath, "images", model.ExistingPhotoPath);
+                        System.IO.File.Delete(filePath);
+                    }
+                    employee.PhotoPath = ProcessUploadedFile(model);
+                }
+
+                _employeeRepository.Update(employee);
+                return RedirectToAction("index", new { id = employee.Id });
+            }
+
+            return View();
+        }
+
+        private string ProcessUploadedFile(EmployeeCreateViewModel model)
+        {
+            string uniqueFileName = null;
+            if (model.Photo != null)
+            {
+                string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                string filePath = Path.Combine(uploadFolder, uniqueFileName);
+                model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+            }
+
+            return uniqueFileName;
         }
     }
 }
