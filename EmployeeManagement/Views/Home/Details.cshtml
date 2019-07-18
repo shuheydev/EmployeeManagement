@@ -2,10 +2,14 @@
 
 @{
     ViewBag.Title = "Employee Details";
+    var photoPath = "~/images/" + (Model.Employee.PhotoPath ?? "image1.jpg");
 }
 
 <h3>@Model.PageTitle</h3>
 
+<div>
+    <img class="card-img-top" src="@photoPath" asp-append-version="true" />
+</div>
 <div>
     Name: @Model.Employee.Name
 </div>
