@@ -46,6 +46,10 @@ namespace EmployeeManagement
                 //一つ目のミドルウェア
                 app.UseDeveloperExceptionPage(developerExceptionPageOptions);
             }
+            else
+            {
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");//{0}には失敗したときのアクセスコードが自動的に入る。
+            }
 
             app.UseStaticFiles();
             app.UseMvc(routes =>
