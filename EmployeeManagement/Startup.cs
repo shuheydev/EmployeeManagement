@@ -48,6 +48,7 @@ namespace EmployeeManagement
             }
             else
             {
+                app.UseExceptionHandler("/Error");
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");//{0}には失敗したときのアクセスコードが自動的に入る。
             }
 
