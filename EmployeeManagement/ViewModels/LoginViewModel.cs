@@ -6,19 +6,16 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.ViewModels
 {
-    public class RegisterViewModel
+    public class LoginViewModel
     {
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-
         [Required]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare(nameof(Password), ErrorMessage = "Pasword and confirmation password do not match")]
-        public string ConfirmPassword { get; set; }
+        public string Password { get; set; }
+        [Display(Name = "Remember me")]
+        public bool RememberMe { get; set; }
     }
 }
