@@ -25,7 +25,7 @@ namespace EmployeeManagement.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("index", "home");
+            return RedirectToAction("login", "account");
         }
 
         [HttpGet]
@@ -35,7 +35,7 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterVIewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -49,9 +49,7 @@ namespace EmployeeManagement.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: true);
-
-                    var test = _signInManager.IsSignedIn(User);
+                    await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("index", "home");
                 }
 
@@ -62,5 +60,29 @@ namespace EmployeeManagement.Controllers
             }
             return View(model);
         }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("index", "home");
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");//Validation-Summaryタグヘルパーに表示される。
+            }
+
+            return View(model);
+        }
+
     }
 }
