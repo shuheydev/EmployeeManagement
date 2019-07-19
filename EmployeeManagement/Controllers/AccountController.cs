@@ -21,6 +21,13 @@ namespace EmployeeManagement.Controllers
             _signInManager = signInManager;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("index", "home");
+        }
+
         [HttpGet]
         public IActionResult Register()
         {
@@ -42,7 +49,9 @@ namespace EmployeeManagement.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _signInManager.SignInAsync(user, isPersistent: true);
+
+                    var test = _signInManager.IsSignedIn(User);
                     return RedirectToAction("index", "home");
                 }
 
