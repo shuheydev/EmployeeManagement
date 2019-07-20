@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.Models
 {
-    public class AppDbContext : IdentityDbContext//IdentityDbContextクラスはIdentityUserContextを継承していて、IdentityUserContextはDbContextを継承している。
+    public class AppDbContext : IdentityDbContext<ApplicationUser>//IdentityDbContextクラスはIdentityUserContextを継承していて、IdentityUserContextはDbContextを継承している。
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
