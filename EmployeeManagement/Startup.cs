@@ -32,11 +32,8 @@ namespace EmployeeManagement
             services.AddDbContextPool<AppDbContext>(
                 options => options.UseSqlServer(_config.GetConnectionString("EmployeeDbConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
-            {
-                //パスワードルールについて設定を変更できる。
-                //options.Password...
-            }).AddEntityFrameworkStores<AppDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddMvc(options =>
             {
